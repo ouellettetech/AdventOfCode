@@ -35,7 +35,6 @@ function day13b(inputString){
 	while(alarms.length!=0){
 		currentDelay++;
 		alarms = findAlarm(firewallArray,currentDelay);
-		console.log(alarms);
 	}
 	console.log(currentDelay);
 	return alarms;
@@ -44,11 +43,9 @@ function day13b(inputString){
 
 function findAlarm(firewallArray,delay) {
 	var startDelay=delay || 0;
-	console.log("Start Delay :"+startDelay);
 	var alarms=[];
 	var keys = Object.keys(firewallArray);
 	for(var i=0; i<keys.length;i++){
-		console.log("Get Alarm for : "+(parseInt(keys[i])+startDelay)+" "+firewallArray[keys[i]]);
 		if(getAlarmHeight(parseInt(keys[i])+startDelay, firewallArray[keys[i]])==0){
 			alarms.push(keys[i]);
 		}
