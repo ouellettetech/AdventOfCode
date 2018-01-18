@@ -133,7 +133,7 @@ function day4b(rooms) {
 
 var encryption = readFile("inputDay4.txt");
 testData();
-console.log("Day 1 Part A");
+console.log("Day 4 Part A");
 day4a(encryption);
-console.log("Day 1 Part B");
+console.log("Day 4 Part B");
 console.log(day4b(encryption));

@@ -67,7 +67,7 @@ function day3b(inTriangles) {
 
 var triangles = readFile("inputDay3.txt");
 testData();
-console.log("Day 1 Part A");
+console.log("Day 3 Part A");
 day3a(triangles);
-console.log("Day 1 Part B");
+console.log("Day 3 Part B");
 day3b(triangles);

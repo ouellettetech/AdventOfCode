@@ -43,9 +43,9 @@ function day2b(inputPath) {
 }
 
 testData();
-console.log("Day 1 Part A");
+console.log("Day 2 Part A");
 day2a(bathRoomDirection);
-console.log("Day 1 Part B");
+console.log("Day 2 Part B");
 day2b(bathRoomDirection);
 
 function KeyPadB(){
