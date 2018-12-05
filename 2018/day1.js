@@ -2,8 +2,6 @@ input = document.body.innerText.split("\n");
 input.pop();// remove the final html character.
 
 
-console.log("Part B");
-
 function day01b(adjustments){
     var found=false;
     var seenValues=[];
@@ -38,5 +36,5 @@ function day01a(adjustments){
 //testData();
 console.log("Day 01 Part A");
 day01a(input);
-console.log("Day 24 Part B");
+console.log("Day 01 Part B");
 day01b(input);
