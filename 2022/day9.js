@@ -41,7 +41,7 @@ function day01b(path ){
         curMove = movement.split(' ');
         switch(curMove[0]){
             case 'U':
-                console.log("Moving Head UP.");
+                //console.log("Moving Head UP.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.knots[0].y++;
                     printState(state);
@@ -52,7 +52,7 @@ function day01b(path ){
                 }
                 break;
             case 'D':
-                console.log("Moving Head DOWN.");
+                //console.log("Moving Head DOWN.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.knots[0].y--;
                     printState(state);
@@ -63,7 +63,7 @@ function day01b(path ){
                 }
                 break;
             case 'L':
-                console.log("Moving Head LEFT.");
+                //console.log("Moving Head LEFT.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.knots[0].x--;
                     printState(state);
@@ -74,7 +74,7 @@ function day01b(path ){
                 }
                 break;
             case 'R':
-                console.log("Moving Head RIGHT.");
+                //console.log("Moving Head RIGHT.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.knots[0].x++;
                     printState(state);
@@ -104,7 +104,7 @@ function day01a(path ){
         curMove = movement.split(' ');
         switch(curMove[0]){
             case 'U':
-                console.log("Moving Head UP.");
+                //console.log("Moving Head UP.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.head.y++;
                     printState(state);
@@ -113,7 +113,7 @@ function day01a(path ){
                 }
                 break;
             case 'D':
-                console.log("Moving Head DOWN.");
+                //console.log("Moving Head DOWN.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.head.y--;
                     printState(state);
@@ -122,7 +122,7 @@ function day01a(path ){
                 }
                 break;
             case 'L':
-                console.log("Moving Head LEFT.");
+                //console.log("Moving Head LEFT.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.head.x--;
                     printState(state);
@@ -131,7 +131,7 @@ function day01a(path ){
                 }
                 break;
             case 'R':
-                console.log("Moving Head RIGHT.");
+                //console.log("Moving Head RIGHT.");
                 for(var i=0;i<parseInt(curMove[1]);i++){
                     state.head.x++;
                     printState(state);
@@ -193,7 +193,7 @@ function updateGrid(state){
         state.grid[state.tail.x] = [];
     }
     if (!state.grid[state.tail.x][state.tail.y]){
-        console.log("Updateing Grid Tail X: "+state.tail.x + " Y: "+ state.tail.y);
+        //console.log("Updateing Grid Tail X: "+state.tail.x + " Y: "+ state.tail.y);
         state.grid[state.tail.x][state.tail.y] = true;
         state.count++;
     }
