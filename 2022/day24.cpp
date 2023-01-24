@@ -275,6 +275,18 @@ class Grid{
                         }
                         return sizeVal;
                 }
+                Coordinate getEnd(){
+                        Coordinate sizeVal;
+                        sizeVal.y = 0;
+                        sizeVal.x = -1;
+                        for(int x=0;x<grid[sizeVal.y].size();x++){
+                                if(!grid[sizeVal.y][x]->isWall()){
+                                        sizeVal.x = x;
+                                        return sizeVal;
+                                }
+                        }
+                        return sizeVal;
+                }
         private:
                 vector<vector<GridElement*>> grid;
                 vector<Blizzard*> storms;
@@ -291,13 +303,17 @@ class Expedition{
                        curLoc.y = y;
                        moves = moveNumber; 
                 }
-                int findNextMoves(Grid &newSnowGrid, queue<Expedition> &locationToSearch){
+                int findNextMoves(Grid &newSnowGrid, queue<Expedition> &locationToSearch, bool south){
                         checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x,curLoc.y,moves);
                         checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x+1,curLoc.y,moves);
                         checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x-1,curLoc.y,moves);
-                        checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x,curLoc.y+1,moves);
+                        if(checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x,curLoc.y+1,moves)){
+                                if(!south && ((curLoc.y+1) == (newSnowGrid.size().y-1))){
+                                        return moves;
+                                }
+                        }
                         if(checkAndAddLocation(newSnowGrid, locationToSearch, curLoc.x,curLoc.y-1,moves)){
-                                if((curLoc.y-1) == 0){
+                                if(south && (curLoc.y-1) == 0){
                                         return moves;
                                 }
                         }
@@ -316,6 +332,9 @@ class Expedition{
                                 return true;
                         }
                         return false;
+                }
+                Coordinate getCurrentLocation(){
+                        return curLoc;
                 }
         private:
                 Coordinate curLoc;
@@ -338,7 +357,7 @@ int day24a(Grid &stormGrid) {
                                 stormGrid.moveStorms();
                                 currentMoves=curState.getCurrentMoves();
                         }
-                        lastStatus=curState.findNextMoves(stormGrid,locationToCheck);
+                        lastStatus=curState.findNextMoves(stormGrid,locationToCheck, true);
                 }
         }
         return lastStatus;
@@ -351,8 +370,54 @@ int day24a(Grid &stormGrid) {
         // stormGrid.printGrid();
 }
 
-long long int day24b() {
-        return 0;
+long long int day24b(Grid &stormGrid, int preMove) {
+        Coordinate start = stormGrid.getStart();
+        cout<<"Start X: "<<start.x<<" Y: "<<start.y<<endl;
+        Coordinate end = stormGrid.getEnd();
+        cout<<"End X: "<<end.x<<" Y: "<<end.y<<endl;
+        queue<Expedition> locationToCheck;
+        locationToCheck.push(Expedition(end.x,end.y,preMove+1));
+        int lastStatus=-1;
+        int currentMoves=preMove+1;
+        stormGrid.moveStorms(); // move storm between directions...
+        while(lastStatus==-1 && locationToCheck.size()>0){
+                Expedition curState = locationToCheck.front();
+                locationToCheck.pop();
+                if(curState.isAvailable(stormGrid)){
+                        if(currentMoves!=curState.getCurrentMoves()){
+                                cout<<"Current Moves: "<<currentMoves<<" Size: "<<locationToCheck.size()<<endl;
+                                stormGrid.moveStorms();
+                                currentMoves=curState.getCurrentMoves();
+                        }
+                        lastStatus=curState.findNextMoves(stormGrid,locationToCheck, false);
+                        if(lastStatus!=-1){
+                                cout<<"Cur State X: "<<curState.getCurrentLocation().x<<" Y: "<<curState.getCurrentLocation().y<<endl;
+                        }
+                }
+        }
+
+        int upwardMoves = lastStatus+1;
+        queue<Expedition> locationToCheckDown;
+        locationToCheckDown.push(Expedition(start.x,start.y,upwardMoves));
+        currentMoves=upwardMoves;
+        lastStatus=-1;
+        stormGrid.moveStorms(); // move storm between directions...
+        while(lastStatus==-1 && locationToCheckDown.size()>0){
+                Expedition curState = locationToCheckDown.front();
+                locationToCheckDown.pop();
+                if(curState.isAvailable(stormGrid)){
+                        if(currentMoves!=curState.getCurrentMoves()){
+                                cout<<"Current Moves: "<<currentMoves<<" Size: "<<locationToCheckDown.size()<<endl;
+                                stormGrid.moveStorms();
+                                currentMoves=curState.getCurrentMoves();
+                        }
+                        lastStatus=curState.findNextMoves(stormGrid,locationToCheckDown, true);
+                        if(lastStatus!=-1){
+                                cout<<"Cur State X: "<<curState.getCurrentLocation().x<<" Y: "<<curState.getCurrentLocation().y<<endl;
+                        }
+                }
+        }
+        return lastStatus;
 }
 
 int main(){
@@ -378,12 +443,12 @@ int main(){
         int testPartA = day24a(testStormGrid);
         int partA = day24a(stormGrid);
 
-        //int testPartB = day17b(testEncryptedListPartB,testOriginalOrder, testZeroNode);
-        //long long int partB = day17b(encryptedListPartB,originalOrder, zeroNode);
+        int testPartB = day24b(testStormGrid, testPartA);
+        int partB = day24b(stormGrid, partA);
         cout<<"Test Result: "<<testPartA<<endl;
         cout<<"PartA Result: "<<partA<<endl;
-        //cout<<"Test Part B Result: "<<testPartB<<endl;
-        //cout<<"PartB Result: "<<partB<<endl;
+        cout<<"Test Part B Result: "<<testPartB<<endl;
+        cout<<"PartB Result: "<<partB<<endl;
         cout<<"After Close: "<<endl;
         return 0;
 }
